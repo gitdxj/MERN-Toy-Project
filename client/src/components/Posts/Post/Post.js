@@ -4,9 +4,10 @@ import {useDispatch} from 'react-redux';
 import moment from 'moment';
 
 import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@material-ui/core';
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 
 import useStyle from './styles';
 
@@ -15,12 +16,24 @@ import {deletePost, likePost} from '../../../actions/posts';
 
 const Post = ({post, setCurrentId}) => {
 
+    // console.log("components/Post");
     // console.log(post);
     // console.log(post.creator);
 
     const classes = useStyle();
-
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
+
+    const Likes = () => {
+        if(user && post && post.likes && (post.likes.length>0)){
+            if (post.likes.find((like) => like===(user.result.googleId || user.result._id))){
+               return (<><ThumbUpAltIcon fontSize="small"/> &nbsp; {post.likes.length > 2 ? `You and ${post.likes.length-1} others` : `${post.likes.length} like${post.likes.length>1?'s':''} `} </>);
+            } else {
+                return (<><ThumbUpAltOutlined fontSize="small"/> &nbsp; {post.likes.length} {post.likes.length === 1 ? 'likes': 'like'} </>);
+            }
+        }
+        return <><ThumbUpAltOutlined fontSize="small"/> &nbsp; like </>
+    }
 
     return (
         <Card className={classes.card}>
@@ -30,14 +43,17 @@ const Post = ({post, setCurrentId}) => {
                 image="data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iTXVpU3ZnSWNvbi1yb290IiBmb2N1c2FibGU9ImZhbHNlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgYXJpYS1oaWRkZW49InRydWUiID48cGF0aCBkPSJNMTUgM2wyLjMgMi4zLTIuODkgMi44NyAxLjQyIDEuNDJMMTguNyA2LjcgMjEgOVYzaC02ek0zIDlsMi4zLTIuMyAyLjg3IDIuODkgMS40Mi0xLjQyTDYuNyA1LjMgOSAzSDN2NnptNiAxMmwtMi4zLTIuMyAyLjg5LTIuODctMS40Mi0xLjQyTDUuMyAxNy4zIDMgMTV2Nmg2em0xMi02bC0yLjMgMi4zLTIuODctMi44OS0xLjQyIDEuNDIgMi44OSAyLjg3TDE1IDIxaDZ2LTZ6Ij48L3BhdGg+PC9zdmc+"
             /> */}
             <div className={classes.overlay}>
-                <Typography variant='h6'>{post.creator}</Typography>
+                <Typography variant='h6'>{post.name}</Typography>
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
-            <div className={classes.overlay2}>
-                <Button style={{color: 'white'}} size='small' onClick={() => {setCurrentId(post._id)}}>
-                    <MoreHorizIcon fontSize='medium'/>
-                </Button>
-            </div>
+            {/* Edit button */}
+            {user && (user.result._id===post.creator || user.result.googleId===post.creator) && (
+                <div className={classes.overlay2}>
+                    <Button style={{color: 'white'}} size='small' onClick={() => {setCurrentId(post._id)}}>
+                        <MoreHorizIcon fontSize='medium'/>
+                    </Button>
+                </div>
+            )}
             <div className={classes.details}>
                 <Typography variant='body2' color='textSecondary'>{post.tags.map((t) => `#${t} `)}</Typography>
             </div>
@@ -46,15 +62,17 @@ const Post = ({post, setCurrentId}) => {
                 <Typography variant='body2' color='textSecondary' component='p'>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color='primary' onClick={() => dispatch(likePost(post._id))}>
-                    <ThumbUpAltIcon fontSize='small'/>
-                    &nbsp; Like &nbsp;
-                    {post.likeCount}
+                <Button size='small' color='primary' disabled={!user} onClick={() => dispatch(likePost(post._id))}>
+                    <Likes />
                 </Button>
-                <Button size='small' color='secondary' onClick={() => dispatch(deletePost(post._id))}>
-                    <DeleteIcon fontSize='small'/>
-                    Delete
-                </Button>
+                {/* Delete button */}
+                {user && (user.result._id===post.creator || user.result.googleId===post.creator) && (
+                    <Button size='small' color='secondary' onClick={() => dispatch(deletePost(post._id))}>
+                        <DeleteIcon fontSize='small'/>
+                        Delete
+                    </Button>
+                )}
+
             </CardActions>
         </Card>
     );
