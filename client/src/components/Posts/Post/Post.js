@@ -1,9 +1,10 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import moment from 'moment';
 
-import {Card, CardActions, CardContent, CardMedia, Button, Typography} from '@material-ui/core';
+import {Card, CardActions, CardContent, CardMedia, Button, Typography, ButtonBase} from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
@@ -22,6 +23,8 @@ const Post = ({post, setCurrentId}) => {
 
     const classes = useStyle();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const user = JSON.parse(localStorage.getItem('profile'));
 
     const Likes = () => {
@@ -34,9 +37,12 @@ const Post = ({post, setCurrentId}) => {
         }
         return <><ThumbUpAltOutlined fontSize="small"/> &nbsp; like </>
     }
+    
+    const openPost = () => navigate(`/posts/${post._id}`);
 
     return (
         <Card className={classes.card} raised elevation={6}>
+        <ButtonBase className={classes.cardActions} onClick={openPost}>
             <CardMedia className={classes.media} component='img' src={post.selectedFile} title={post.title}/>
             {/* <CardMedia
                 style={{ height: 100, width: 100 }}
@@ -54,10 +60,12 @@ const Post = ({post, setCurrentId}) => {
                     </Button>
                 </div>
             )}
+        </ButtonBase>
             <div className={classes.details}>
                 <Typography variant='body2' color='textSecondary'>{post.tags.map((t) => `#${t} `)}</Typography>
             </div>
             <Typography className={classes.title} variant='h5' gutterBottom>{post.title}</Typography>
+        
             <CardContent>
                 <Typography variant='body2' color='textSecondary' component='p'>{post.message}</Typography>
             </CardContent>

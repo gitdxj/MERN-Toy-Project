@@ -11,6 +11,8 @@ export default (state={posts:[], isLoading: true}, action) => {
             return {...state, posts: state.posts.filter((post) => post._id !== action.payload)}; 
         case 'UPDATE':
             return {...state, posts: state.posts.map((post) => post._id === action.payload._id ? action.payload : post)};
+        case 'FETCH_POST':
+            return {...state, post: action.payload};
         case 'FETCH_ALL':
             return {
                 ...state,
