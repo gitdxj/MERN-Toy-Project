@@ -1,6 +1,6 @@
 
 # MERN(MongoDB, Express, React, Node) Full Stack Project
-project following the [JavaScript Mastery](https://www.youtube.com/watch?v=VsUzmlZfYNg) and his repo can be found [here](https://github.com/gitdxj/MERN-Toy-Project)
+project following tutorial [JavaScript Mastery](https://www.youtube.com/watch?v=VsUzmlZfYNg) and his repo can be found [here](https://github.com/adrianhajdin/project_mern_memories)
 
 Implemented :
 * Sign up & Sign in
