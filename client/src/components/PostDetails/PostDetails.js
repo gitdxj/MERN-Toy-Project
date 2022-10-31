@@ -4,6 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core';
 
+import CommentSection from './CommentSection';
+
 import { getPost, getPostBySearch } from '../../actions/posts.js';
 
 import moment from 'moment';
@@ -55,9 +57,7 @@ const PostDetails = () => {
             <Typography variant="h6">Created by: {post.name}</Typography>
             <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
             <Divider style={{ margin: '20px 0' }} />
-            <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-            <Divider style={{ margin: '20px 0' }} />
-            <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+            <CommentSection post={post} />
             <Divider style={{ margin: '20px 0' }} />
             </div>
         <div className={classes.imageSection}>
@@ -75,7 +75,7 @@ const PostDetails = () => {
                 <Typography gutterBottom variant="subtitle2">{name}</Typography>
                 <Typography gutterBottom variant="subtitle2">{message}</Typography>
                 <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-                <img src={selectedFile} width="200px" />
+                <img src={selectedFile} width="200px" alt=''/>
               </div>
             ))}
           </div>
