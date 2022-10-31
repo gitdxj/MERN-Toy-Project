@@ -4,7 +4,7 @@ import PostMessage from "../models/postMessage.js";
 
 export const getPost = async (req, res) => {
     const { id } = req.params;
-    // console.log("controllers/post.js getPost: ", id);
+    console.log("controllers/post.js getPost: ", id);
     try{
         const post = await PostMessage.findById(id);
         res.status(200).json(post);
@@ -34,6 +34,7 @@ export const getPosts = async (req, res) => {
 // /search?searchQuery= & tags=
 export const getPostBySearch = async (req, res) => {
     const {searchQuery, tags} = req.query;
+    console.log("controllers/post.js getPostBySearch: ", searchQuery, tags); 
     try {
         const titleSearch = new RegExp(searchQuery, 'i');
         const posts = await PostMessage.find({ $or:[{title: titleSearch}, {tags: {$in: tags.split(',')}} ]});

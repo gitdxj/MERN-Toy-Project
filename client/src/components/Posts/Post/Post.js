@@ -42,8 +42,9 @@ const Post = ({post, setCurrentId}) => {
 
     return (
         <Card className={classes.card} raised elevation={6}>
-        <ButtonBase className={classes.cardActions} onClick={openPost}>
+        <ButtonBase className={classes.card} onClick={openPost}>
             <CardMedia className={classes.media} component='img' src={post.selectedFile} title={post.title}/>
+        </ButtonBase>
             {/* <CardMedia
                 style={{ height: 100, width: 100 }}
                 image="data:image/svg+xml;base64,PHN2ZyBjbGFzcz0iTXVpU3ZnSWNvbi1yb290IiBmb2N1c2FibGU9ImZhbHNlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgYXJpYS1oaWRkZW49InRydWUiID48cGF0aCBkPSJNMTUgM2wyLjMgMi4zLTIuODkgMi44NyAxLjQyIDEuNDJMMTguNyA2LjcgMjEgOVYzaC02ek0zIDlsMi4zLTIuMyAyLjg3IDIuODkgMS40Mi0xLjQyTDYuNyA1LjMgOSAzSDN2NnptNiAxMmwtMi4zLTIuMyAyLjg5LTIuODctMS40Mi0xLjQyTDUuMyAxNy4zIDMgMTV2Nmg2em0xMi02bC0yLjMgMi4zLTIuODctMi44OS0xLjQyIDEuNDIgMi44OSAyLjg3TDE1IDIxaDZ2LTZ6Ij48L3BhdGg+PC9zdmc+"
@@ -60,7 +61,6 @@ const Post = ({post, setCurrentId}) => {
                     </Button>
                 </div>
             )}
-        </ButtonBase>
             <div className={classes.details}>
                 <Typography variant='body2' color='textSecondary'>{post.tags.map((t) => `#${t} `)}</Typography>
             </div>
