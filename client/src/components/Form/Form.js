@@ -10,7 +10,7 @@ import {createPost, updatePost} from '../../actions/posts.js';
 const Form = ({currentId, setCurrentId}) => {
   const classes = useStyle();
   const [postData, setPostData] = useState({ title: "", message: "", tags: "", selectedFile: "" });
-  const post = useSelector((state) => currentId ? state.posts.find((p) => p._id===currentId) : null);
+  const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id===currentId) : null);
   const dispatch = useDispatch();
   
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -47,7 +47,7 @@ const Form = ({currentId, setCurrentId}) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6} >
       <form autoComplete="off" noValidate className={`${classes.form} ${classes.root}`} onSubmit={handleSubmit}>
         <Typography variant="h6">{currentId ? 'Editing':'Creating'} a Memory</Typography>
         {/* <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({...postData, creator: e.target.value })}/> */}
